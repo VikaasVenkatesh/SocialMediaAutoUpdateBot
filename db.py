@@ -58,6 +58,20 @@ CREATE TABLE IF NOT EXISTS drafts (
     FOREIGN KEY(pattern_report_id) REFERENCES pattern_reports(id)
 );
 
+-- Trending search signals for the niche (Phase 1b, e.g. Google Trends).
+CREATE TABLE IF NOT EXISTS trends (
+    id           INTEGER PRIMARY KEY AUTOINCREMENT,
+    run_id       TEXT    NOT NULL,
+    collected_at TEXT    NOT NULL,
+    source       TEXT    NOT NULL,        -- google_trends | reddit | ig_hashtag
+    seed_term    TEXT,                     -- the query/term we expanded from
+    kind         TEXT,                     -- rising | top
+    query        TEXT    NOT NULL,         -- the trending query/topic
+    value        INTEGER DEFAULT 0,        -- rising % or top score (0-100)
+    geo          TEXT,
+    UNIQUE(run_id, source, seed_term, kind, query)
+);
+
 -- Lightweight run ledger incl. estimated token spend (cost guardrail).
 CREATE TABLE IF NOT EXISTS runs (
     run_id          TEXT PRIMARY KEY,

@@ -64,6 +64,17 @@ def build() -> dict:
             ).fetchall():
                 listings.setdefault(r["listing_address"], []).append(dict(r))
 
+        # Latest trend signals (most recent run that has any).
+        trow = conn.execute(
+            "SELECT run_id FROM trends ORDER BY id DESC LIMIT 1"
+        ).fetchone()
+        trends_list = []
+        if trow:
+            trends_list = [dict(r) for r in conn.execute(
+                "SELECT source, seed_term, kind, query, value FROM trends "
+                "WHERE run_id = ? ORDER BY kind, value DESC", (trow["run_id"],)
+            ).fetchall()]
+
     return {
         "summary": {
             "runs": n_runs, "posts": n_posts, "drafts": n_drafts,
@@ -72,6 +83,7 @@ def build() -> dict:
         "runs": runs,
         "patterns": patterns,
         "drafts": {"run_id": draft_run, "listings": listings},
+        "trends": trends_list,
     }
 
 

@@ -1,9 +1,9 @@
 {
   "summary": {
-    "runs": 7,
+    "runs": 8,
     "posts": 744,
-    "drafts": 38,
-    "spend": 0.2647,
+    "drafts": 39,
+    "spend": 0.274,
     "market": "Bay Area + I-580 / Altamont Corridor + N. San Joaquin Valley"
   },
   "runs": [
@@ -59,9 +59,17 @@
       "run_id": "20260612-183617-a91ac8",
       "started_at": "2026-06-12T18:36:17",
       "posts_collected": 135,
-      "est_cost_usd": 0.079801,
-      "est_input_tokens": 4888,
-      "est_output_tokens": 6271
+      "est_cost_usd": 0.08906499999999999,
+      "est_input_tokens": 6166,
+      "est_output_tokens": 6633
+    },
+    {
+      "run_id": "trends-live-1",
+      "started_at": "2026-06-12T18:47:44",
+      "posts_collected": 0,
+      "est_cost_usd": 0.0,
+      "est_input_tokens": 0,
+      "est_output_tokens": 0
     }
   ],
   "patterns": {
@@ -223,6 +231,15 @@
         },
         {
           "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
+          "platform": "tiktok",
+          "hook": "$749,000 for a 2-bed condo in Fremont. Here's why that number makes sense right now.",
+          "caption": "$749,000 · 2 bed / 2 bath · 1,056 sqft · Fremont, CA\n\nFremont entry-level near I-880 and BART. For buyers who want Bay Area access without paying Peninsula prices, this corridor still offers a foothold.\n\nOpen houses are running now. If you're watching this market, you already know why this zip code holds its demand.\n\n— Sri",
+          "hashtags": "",
+          "suggested_format": "talking-head with B-roll cutaways",
+          "video_outline": "Open on Sri speaking directly to camera: 'Bay Area under $750K — let me show you what that actually looks like in Fremont today.'\nCut to exterior and interior B-roll of the condo: 2 bed, 2 bath, 1,056 sqft at 39266 Marbella Terraza.\nSri on camera: brief breakdown of the I-880 and BART commuter advantage — why location drives demand here.\nB-roll of neighborhood or commute corridor imagery while Sri narrates the investor-to-homebuyer case for this price point.\nClose on Sri: 'Open houses are happening now. If this corridor is on your list, come see it in person or drop a question below.'"
+        },
+        {
+          "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
           "platform": "x",
           "hook": "$749K. Fremont. 2/2 condo. BART and I-880 accessible. Open houses running now.",
           "caption": "$749K. Fremont. 2 bed / 2 bath. 1,056 sqft.\n\nI-880 and BART access. That's not a small thing in this market.\n\nOpen houses are live. If it fits your criteria, reach out.\n\n39266 Marbella Terraza — https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773\n\n— Sri",
@@ -297,5 +314,427 @@
         }
       ]
     }
-  }
+  },
+  "trends": [
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "spring housing market delistings analysis",
+      "value": 64350
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "dave ramsey housing market",
+      "value": 38700
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "peter schiff housing market prediction",
+      "value": 13050
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "older millennials housing market trends",
+      "value": 10650
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "billionaire real estate financing",
+      "value": 9650
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "bay area housing market trend",
+      "value": 8450
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "fitness workout plan",
+      "value": 8250
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "spring housing market shift analysis",
+      "value": 8000
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "how to learn python",
+      "value": 5750
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "car insurance quotes",
+      "value": 3950
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "buy laptop online",
+      "value": 2250
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "best restaurants near me",
+      "value": 1300
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "when will the housing market crash again in california",
+      "value": 700
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "cheap flights 2024",
+      "value": 700
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "what is the housing market like right now",
+      "value": 650
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "zillow us housing market forecast",
+      "value": 350
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "houses for sale near me",
+      "value": 300
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "rising",
+      "query": "redfin housing market forecast",
+      "value": 300
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "weather forecast today",
+      "value": 300
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "real estate lawyers near me",
+      "value": 140
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "new homes for sale near me",
+      "value": 130
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "rising",
+      "query": "stock market news",
+      "value": 120
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for sale in whittier ca",
+      "value": 110
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes near me for sale",
+      "value": 110
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for rent",
+      "value": 100
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for sale in lakewood ca",
+      "value": 90
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for sale in san diego",
+      "value": 90
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for sale in redlands ca",
+      "value": 70
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for sale under 500k",
+      "value": 70
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "rising",
+      "query": "homes for sale under 100k",
+      "value": 60
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "homes near me for sale",
+      "value": 100
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "housing market 2026",
+      "value": 100
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "california real estate",
+      "value": 100
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "mobile homes for sale",
+      "value": 74
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate agent",
+      "value": 71
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "commercial real estate",
+      "value": 66
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "homes for rent",
+      "value": 63
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate for sale",
+      "value": 63
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate market",
+      "value": 60
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "zillow homes for sale",
+      "value": 56
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate near me",
+      "value": 49
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate news",
+      "value": 44
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate agents",
+      "value": 37
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate license",
+      "value": 37
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "real estate",
+      "kind": "top",
+      "query": "real estate management",
+      "value": 35
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "homes for sale san diego",
+      "value": 33
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "homes for sale los angeles",
+      "value": 22
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "us housing market",
+      "value": 21
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "homes for sale in san diego",
+      "value": 19
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "texas homes for sale",
+      "value": 19
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "california housing market",
+      "value": 18
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "ca housing market",
+      "value": 17
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "homes for sale san francisco",
+      "value": 16
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "homes for sale",
+      "kind": "top",
+      "query": "sacramento homes for sale",
+      "value": 16
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "housing market forecast",
+      "value": 15
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "housing market news",
+      "value": 14
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "2026 housing market forecast",
+      "value": 11
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "housing market trends",
+      "value": 11
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "current housing market",
+      "value": 10
+    },
+    {
+      "source": "google_trends",
+      "seed_term": "housing market",
+      "kind": "top",
+      "query": "housing market today",
+      "value": 10
+    }
+  ]
 }

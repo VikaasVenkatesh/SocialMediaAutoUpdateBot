@@ -42,6 +42,14 @@ def main():
     n = p1_collect.collect(run_id)
     print(f"[1] collected {n} posts")
 
+    # Phase 1b — Trend signals (free: Google Trends). Non-fatal if it fails.
+    try:
+        import trends
+        t = trends.collect(run_id)
+        print(f"[1b] collected {t} trend signals")
+    except Exception as e:
+        print(f"[1b] trends skipped: {e}")
+
     # Phase 2 — Study
     report_id = p2_study.study(run_id)
     print(f"[2] pattern report #{report_id}")

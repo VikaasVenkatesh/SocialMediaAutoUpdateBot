@@ -52,6 +52,11 @@ def api_drafts():
     return jsonify(snapshot.get_data()["drafts"])
 
 
+@app.get("/api/trends")
+def api_trends():
+    return jsonify(snapshot.get_data().get("trends", []))
+
+
 @app.get("/api/config")
 def api_config():
     """Listings + platforms for the generate controls, and whether it's enabled."""
@@ -169,6 +174,11 @@ PAGE = """
   </div>
 
   <div class="panel">
+    <h2>📈 Trending in the niche <span class="market">· Google Trends (California, last 90d)</span></h2>
+    <div id="trends"></div>
+  </div>
+
+  <div class="panel">
     <h2>✨ Generate a post on demand</h2>
     <div id="genControls" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
       <select id="genListing" class="sel"></select>
@@ -203,11 +213,12 @@ function mk(id, type, labels, data, label, color){
 }
 
 async function load(){
-  const [s, runs, pat, dr] = await Promise.all([
+  const [s, runs, pat, dr, tr] = await Promise.all([
     fetch('/api/summary').then(r=>r.json()),
     fetch('/api/runs').then(r=>r.json()),
     fetch('/api/patterns').then(r=>r.json()),
     fetch('/api/drafts').then(r=>r.json()),
+    fetch('/api/trends').then(r=>r.json()).catch(()=>[]),
   ]);
 
   document.getElementById('market').textContent = s.market || '';
@@ -238,6 +249,21 @@ async function load(){
     mk('ctaChart','bar',l,d,'cta','#f59e0b'); }
   if(P.hashtag_strategy){ const [l,d]=dist('hashtag_strategy');
     mk('hashChart','bar',l,d,'hashtags','#a78bfa'); }
+
+  // trends
+  const tbox = document.getElementById('trends');
+  if(tbox){
+    const rising = (tr||[]).filter(t=>t.kind==='rising').slice(0,12);
+    const top = (tr||[]).filter(t=>t.kind==='top').slice(0,12);
+    const col = (title,items,color) => `<div><div class="listing-h" style="color:${color}">${title}</div>`
+      + (items.length ? items.map(t=>`<span class="tag">${esc(t.query)}`
+          + (t.value?` <b style="color:${color}">${t.value>=100?'+'+t.value+'%':t.value}</b>`:'')
+          + `</span>`).join(' ')
+        : '<span class="market">No data — run the pipeline.</span>') + '</div>';
+    tbox.innerHTML = `<div class="grid2">
+      ${col('🔥 Rising queries', rising, '#f59e0b')}
+      ${col('⭐ Top queries', top, '#34d399')}</div>`;
+  }
 
   // drafts
   const box = document.getElementById('drafts');
