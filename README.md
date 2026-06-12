@@ -60,9 +60,12 @@ SocialMediaAutoUpdateBot/
 └── output/              # digests written here (gitignored)
 ```
 
-> **Deliverable 1 status:** scaffold, SQLite schema, `.env.example`, and a sample
-> `seed_posts.csv` are complete. Phases 1–5 are wired in `main.py` but their
-> bodies are stubs (raise `NotImplementedError`) until deliverables 2–5.
+> **Status:** all five phases implemented and wired in `main.py`. `python main.py`
+> runs the complete loop end-to-end. Without API keys it degrades gracefully —
+> the YouTube collector is skipped (CSV only) and pattern extraction uses a
+> heuristic fallback; **generation (Phase 3) requires a real `ANTHROPIC_API_KEY`**
+> since on-brand draft quality is the whole point of the PoC. Add keys to `.env`
+> to exercise the live YouTube + Claude paths.
 
 ---
 
