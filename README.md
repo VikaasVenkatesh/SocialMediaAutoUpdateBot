@@ -140,9 +140,20 @@ drafts** for review. It auto-refreshes every 15s — re-run `python main.py` in
 another terminal and the charts update on the next refresh.
 
 **✨ Generate on demand:** pick a listing + platform and click **Generate post**
-to create a fresh draft live (one Sonnet call, ~$0.01). This is **local-only** —
-it needs the SQLite DB + `ANTHROPIC_API_KEY`, so on the hosted Vercel snapshot
-the button is disabled. Drafting only; nothing is published.
+to create a fresh draft live (one Sonnet call, ~$0.01). Drafting only; nothing
+is published.
+
+- **Local:** works directly (uses the SQLite DB + `ANTHROPIC_API_KEY` from `.env`).
+- **Hosted (Vercel):** generates from the committed snapshot's patterns, and is
+  **protected** so strangers can't spend your credits:
+  - **Password gate** — `/api/generate` requires `GENERATE_PASSWORD` (a Vercel
+    env var). The Anthropic key lives only as a Vercel env var, never in code.
+  - **Rate limiting** — per-IP (`RATE_LIMIT_PER_IP`) + global/day
+    (`RATE_LIMIT_GLOBAL`) caps in `config.py`, returning HTTP 429 when exceeded.
+    The limiter is in-memory, so on serverless it holds within a warm container
+    and resets on cold starts — solid against bursts/accidental spam behind the
+    password, but **not a hard cross-instance guarantee**. For that, back
+    `ratelimit.py` with Upstash Redis / Vercel KV (both have free tiers).
 
 ### Deploy the dashboard to Vercel (free)
 

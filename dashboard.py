@@ -17,6 +17,7 @@ import os
 from flask import Flask, jsonify, render_template_string, request
 
 import config
+import ratelimit
 import snapshot
 
 app = Flask(__name__)
@@ -100,6 +101,18 @@ def api_generate():
         supplied = body.get("password") or request.headers.get("X-Gen-Password", "")
         if supplied != os.getenv("GENERATE_PASSWORD", ""):
             return jsonify(error="Invalid or missing password."), 401
+
+    # Rate limit (defence-in-depth behind the password): per-IP + global/day.
+    client_ip = (request.headers.get("X-Forwarded-For", request.remote_addr or "?")
+                 .split(",")[0].strip())
+    ok, retry_after = ratelimit.check_many([
+        (f"ip:{client_ip}", *config.RATE_LIMIT_PER_IP),
+        ("global", *config.RATE_LIMIT_GLOBAL),
+    ])
+    if not ok:
+        resp = jsonify(error=f"Rate limit reached. Try again in ~{retry_after}s.")
+        resp.headers["Retry-After"] = str(retry_after)
+        return resp, 429
 
     listing = body.get("listing")
     platform = body.get("platform")

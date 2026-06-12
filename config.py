@@ -106,6 +106,12 @@ GENERATION_MODEL = "claude-sonnet-4-6"         # Phase 3: draft generation
 # Platforms we want drafts for in Phase 3.
 TARGET_PLATFORMS = ["instagram", "youtube", "linkedin", "x", "tiktok", "facebook"]
 
+# Rate limits for the hosted Generate endpoint (count, window_seconds).
+# Defence-in-depth behind the password. In-memory (per warm container) — see
+# README for the Upstash/Vercel KV upgrade for hard cross-instance guarantees.
+RATE_LIMIT_PER_IP = (5, 600)        # 5 generations / 10 min / IP
+RATE_LIMIT_GLOBAL = (40, 86400)     # 40 generations / day across everyone
+
 # ---------------------------------------------------------------------------
 # 6) Local paths (no cloud, no hosted DB — $0 constraint).
 # ---------------------------------------------------------------------------
