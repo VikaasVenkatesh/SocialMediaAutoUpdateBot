@@ -1,9 +1,9 @@
 {
   "summary": {
-    "runs": 6,
-    "posts": 609,
-    "drafts": 26,
-    "spend": 0.1849,
+    "runs": 7,
+    "posts": 744,
+    "drafts": 38,
+    "spend": 0.2647,
     "market": "Bay Area + I-580 / Altamont Corridor + N. San Joaquin Valley"
   },
   "runs": [
@@ -54,183 +54,246 @@
       "est_cost_usd": 0.06819,
       "est_input_tokens": 5494,
       "est_output_tokens": 6168
+    },
+    {
+      "run_id": "20260612-183617-a91ac8",
+      "started_at": "2026-06-12T18:36:17",
+      "posts_collected": 135,
+      "est_cost_usd": 0.079801,
+      "est_input_tokens": 4888,
+      "est_output_tokens": 6271
     }
   ],
   "patterns": {
-    "run_id": "20260612-125926-bc1009",
-    "posts_studied": 40,
-    "summary": "Studied 40 top post(s). Dominant patterns:\n- hook_type: property_feature\n- format: long\n- caption_structure: headline_plus_preview\n- caption_length: medium\n- hashtag_strategy: none\n- cta_style: implicit\n- topic_category: market_analysis",
+    "run_id": "20260612-183617-a91ac8",
+    "posts_studied": 27,
+    "summary": "Studied 27 top post(s). Dominant patterns:\n- hook_type: property_feature\n- format: long\n- caption_structure: price_hook + location + description\n- caption_length: short\n- hashtag_strategy: none\n- cta_style: implicit_interest\n- topic_category: market_analysis",
     "patterns": {
       "hook_type": {
         "distribution": {
-          "property_feature": 10,
-          "generic": 6,
-          "curiosity": 5,
-          "data_driven": 4,
-          "question": 4,
-          "alarming": 3,
-          "urgency": 3,
-          "contrarian": 2,
-          "educational": 1,
-          "price_focus": 1,
-          "seasonal": 1
+          "property_feature": 5,
+          "market_question": 2,
+          "fear_appeal": 2,
+          "question": 2,
+          "descriptive": 2,
+          "social_proof": 1,
+          "comparison": 1,
+          "authority": 1,
+          "price_shock": 1,
+          "market_update": 1,
+          "headline_correction": 1,
+          "risk_alert": 1,
+          "top_x_list": 1,
+          "listing_announcement": 1,
+          "regulation_hook": 1,
+          "market_prediction": 1,
+          "curiosity_gap": 1,
+          "price_point": 1,
+          "urgency_change": 1
         },
         "dominant": "property_feature"
       },
       "format": {
         "distribution": {
           "long": 17,
-          "educational": 13,
-          "property_listing": 4,
-          "short": 3,
-          "property_tour": 2,
-          "newsletter": 1
+          "property_tour": 4,
+          "text": 2,
+          "market_analysis": 2,
+          "carousel": 1,
+          "neighborhood_tour": 1
         },
         "dominant": "long"
       },
       "caption_structure": {
         "distribution": {
-          "headline_plus_preview": 9,
-          "title_plus_details": 4,
-          "headline_plus_details": 4,
-          "bold_claim_plus_preview": 3,
-          "title_with_locations_plus_preview": 2,
-          "location_plus_details": 2,
-          "question_plus_preview": 1,
-          "numbered_title_plus_context": 1,
-          "title_plus_insight": 1,
-          "title_only": 1,
-          "headline_with_price_plus_preview": 1,
-          "title_with_price_plus_hashtags": 1,
-          "listing_header_plus_preview": 1,
-          "question_with_data_teaser": 1,
-          "bold_claim_with_counterpoint": 1,
-          "question_plus_context": 1,
-          "question_with_location": 1,
-          "address_with_price_plus_preview": 1,
-          "title_only_with_hashtags": 1,
-          "title_plus_preview": 1,
-          "address_with_hashtags": 1,
-          "headline_only": 1
+          "price_hook + location + description": 2,
+          "title_only + hashtags": 2,
+          "result_hook + insight + cta": 1,
+          "vs_hook + thread_promise": 1,
+          "insight_hook + case_study": 1,
+          "title_only + region_list": 1,
+          "question_hook + data_teaser": 1,
+          "alarm_hook + consequence": 1,
+          "title_only + location + cta": 1,
+          "question_hook + truth_promise": 1,
+          "claim_hook + debunk_promise": 1,
+          "danger_hook + hidden_problem": 1,
+          "trend_hook + contrarian_promise": 1,
+          "policy_impact_hook + question": 1,
+          "title_only + link": 1,
+          "prediction_hook + trend_question": 1,
+          "alarm_hook + link": 1,
+          "title_only + highlights": 1,
+          "location_neighborhood + agent_credit + question": 1,
+          "headline_variant + controversy_angle + truncation": 1,
+          "series_format + location + neighborhood_name + features_list": 1,
+          "price_location + value_proposition + truncation": 1,
+          "headline + market_context + truncation": 1,
+          "property_name_address + agent_credit + cta_link": 1,
+          "specs_location_community + repetition + agent_credit": 1
         },
-        "dominant": "headline_plus_preview"
+        "dominant": "price_hook + location + description"
       },
       "caption_length": {
         "distribution": {
-          "medium": 22,
-          "short": 18
+          "short": 22,
+          "very_short": 3,
+          "medium": 2
         },
-        "dominant": "medium"
+        "dominant": "short"
       },
       "hashtag_strategy": {
         "distribution": {
-          "none": 35,
-          "location_and_type": 2,
-          "emoji": 2,
-          "brand_and_location": 1
+          "none": 22,
+          "hashtag_heavy": 3,
+          "emoji_signal": 2
         },
         "dominant": "none"
       },
       "cta_style": {
         "distribution": {
-          "implicit": 17,
-          "none": 13,
-          "implicit_question": 7,
-          "link_redirect": 3
+          "implicit_interest": 16,
+          "implicit_engagement": 6,
+          "external_link": 2,
+          "dm_action": 1,
+          "thread_engagement": 1,
+          "explicit_link": 1
         },
-        "dominant": "implicit"
+        "dominant": "implicit_interest"
       },
       "topic_category": {
         "distribution": {
-          "market_analysis": 11,
-          "property_listing": 9,
-          "market_update": 8,
-          "property_showcase": 6,
-          "property_tour": 3,
-          "education": 2,
-          "market_education": 1
+          "market_analysis": 7,
+          "home_tour": 6,
+          "market_warning": 3,
+          "market_update": 2,
+          "listing_success": 1,
+          "marketing_strategy": 1,
+          "listing_alert": 1,
+          "market_education": 1,
+          "fixer_upper": 1,
+          "neighborhood_spotlight": 1,
+          "investment_opportunity": 1,
+          "luxury_property": 1,
+          "property_tour": 1
         },
         "dominant": "market_analysis"
       }
     }
   },
   "drafts": {
-    "run_id": "20260612-125926-bc1009",
+    "run_id": "20260612-183617-a91ac8",
     "listings": {
       "39266 Marbella Terraza, Fremont, CA 94538": [
         {
           "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
-          "platform": "instagram",
-          "hook": "Fremont entry point. $749K. BART and I-880 within reach.",
-          "caption": "This is the kind of deal commuters keep asking me about.\n\n2 bed / 2 bath condo in Fremont. 1,056 sqft. $749,000.\n\nI-880 access. BART-accessible. For someone who needs to move between the Bay and the valley corridor — this location does real work.\n\nOpen houses are running now. Come walk it.\n\n— Sri\n\nLink in bio for full details.",
+          "platform": "facebook",
+          "hook": "Active listing in Fremont — $749,000. Open houses running now.",
+          "caption": "📍 39266 Marbella Terraza, Fremont, CA 94538\n💰 $749,000\n🛏 2 Bed / 🛁 2 Bath / 1,056 sqft\n\nFremont has held up as one of the more practical Bay Area entry points — and the reason is simple: I-880 and BART access mean your commute options stay open wherever work takes you.\n\nThis unit is active and open houses are running now.\n\nIf you're a first-time buyer looking to get into the Bay, or an investor evaluating a hold at this price point, this is worth a serious look.\n\nReach out directly or find the full listing here:\nhttps://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773\n\n— Sri",
           "hashtags": "",
-          "suggested_format": "Single image or short reel with property exterior + commute corridor context",
-          "video_outline": "Open on the building exterior — clean, neighborhood feel\nWalk through the unit — 2 bed / 2 bath, 1,056 sqft, let the space speak\nCut to map overlay: I-880 and BART proximity highlighted\nBroker to camera: 'Fremont entry-level at this price is rare — here's why this one matters'\nClose with open house call and link"
+          "suggested_format": "photo album post with listing link in caption — 3 to 5 clean interior/exterior photos if assets confirmed",
+          "video_outline": "Open with address and price on screen or stated directly to camera\nWalk the unit — living area, kitchen, both beds, both baths — no narration filler\nBrief segment on Fremont's commuter position: I-880 and BART access explained plainly\nWho should be looking at this: owner-occupant vs. investor framing\nClose: open houses are live, full listing link in the post, message directly with questions"
+        },
+        {
+          "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
+          "platform": "instagram",
+          "hook": "$749K in Fremont. 2 bed / 2 bath. BART-accessible.",
+          "caption": "$749,000 — 39266 Marbella Terraza, Fremont.\n\n2 bed / 2 bath. 1,056 sqft.\n\nFremont continues to be one of the most practical entry points into the Bay — I-880 access, BART proximity, and a price point that still pencils for the right buyer.\n\nOpen houses are running now.\n\nIf this fits your criteria, reach out.\n\n— Sri",
+          "hashtags": "",
+          "suggested_format": "property_feature photo post with clean price overlay",
+          "video_outline": "Open on exterior or front entry — state address and price immediately\nWalk living area — note the 1,056 sqft layout and natural flow\nShow both bedrooms and both baths without over-narrating\nStep outside or to window — mention I-880 and BART access as the real value driver\nClose to camera: 'Open houses are happening now. DM me if you want details.'"
         },
         {
           "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
           "platform": "linkedin",
-          "hook": "Fremont condo at $749K — a real entry point for the Bay-to-valley commuter.",
-          "caption": "Fifteen years of transactions in this corridor have taught me one thing: location leverage matters more than square footage at the entry level.\n\n39266 Marbella Terraza, Fremont — 2 bed / 2 bath, 1,056 sqft, $749,000.\n\nI-880 access. BART within reach. For a buyer who works the Bay Area but is priced toward the I-580 / Altamont corridor — this is the kind of asset that earns its place in a long-term plan.\n\nOpen houses are live. If you know someone in that buyer profile, send this along.\n\nFull listing: https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773\n\n— Sri",
+          "hook": "Fremont at $749K. Here's why the commuter infrastructure matters more than the finishes.",
+          "caption": "39266 Marbella Terraza, Fremont — $749,000.\n2 bed / 2 bath. 1,056 sqft.\n\nWhen I evaluate an entry-level Bay Area property, I look past the staging and ask one question: what does the infrastructure around this asset do for the buyer long-term?\n\nFremont answers that clearly. I-880 access. BART proximity. A commuter corridor that's held its relevance through every market cycle I've watched over the last 15 years.\n\nAt $749K this is worth a serious look — whether you're a first-time buyer trying to get into the Bay or an investor running a hold strategy.\n\nOpen houses are active now. Happy to talk through the numbers if you're evaluating it seriously.\n\n— Sri",
           "hashtags": "",
-          "suggested_format": "Text post with single property image — professional tone, no carousel",
-          "video_outline": "Sri to camera, professional setting: 'Here is what $749K buys you in Fremont and why the location is the asset'\nBrief exterior shot of building and immediate surroundings\nQuick interior walk — honest, no staging hype, just the space\nOverlay or verbal callout: I-880 and BART access points relative to the unit\nClose with open house timing and direct link to listing"
+          "suggested_format": "single image post with property photo — no carousel needed, let the copy work",
+          "video_outline": "Open direct to camera — no intro fluff, state the address and price in the first five seconds\nFrame the Fremont market briefly: why I-880 and BART access are durable value drivers, not marketing language\nWalk the unit: 2 bed / 2 bath, 1,056 sqft — show it plainly\nInvestor vs. owner-occupant lens: who does this make sense for and why\nClose: open houses are running, link in post, message me directly if you're serious"
+        },
+        {
+          "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
+          "platform": "tiktok",
+          "hook": "Bay Area condo under $750K — and it's BART accessible. Let me show you.",
+          "caption": "$749,000 | Fremont, CA\n2 bed / 2 bath | 1,056 sqft\n\nI-880 and BART access. Open houses are happening now.\n\n39266 Marbella Terraza — link in bio.\n\n— Sri",
+          "hashtags": "",
+          "suggested_format": "vertical walkthrough video, 60–90 seconds, natural lighting, no filters, direct narration",
+          "video_outline": "Hook on camera outside or at entry: 'Bay Area condo under $750K — BART accessible — let me walk you through it'\nMove through living space and kitchen quickly — keep narration factual and tight\nShow both bedrooms and both baths in under 20 seconds combined\nStop at a window or exterior shot: explain why Fremont's commuter access is the real story at this price\nClose to camera: 'Open houses are live. Address and link in my bio. Questions — drop them below.'"
         },
         {
           "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
           "platform": "x",
-          "hook": "Fremont. $749K. 2/2 condo. BART and I-880 accessible. Open houses running now.",
-          "caption": "For the Bay Area commuter buyer watching the I-580 corridor — this one is worth a look.\n\n39266 Marbella Terraza, Fremont CA\n2 bed / 2 bath | 1,056 sqft | $749,000\n\nLocation does the heavy lifting here. Full details: https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773\n\n— Sri",
+          "hook": "$749K. Fremont. 2/2 condo. BART and I-880 accessible. Open houses running now.",
+          "caption": "$749K. Fremont. 2 bed / 2 bath. 1,056 sqft.\n\nI-880 and BART access. That's not a small thing in this market.\n\nOpen houses are live. If it fits your criteria, reach out.\n\n39266 Marbella Terraza — https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773\n\n— Sri",
           "hashtags": "",
-          "suggested_format": "Short text post with one clean property photo attached",
-          "video_outline": "15-second clip: exterior of building, no narration, location caption overlay\nCut to interior — living area and kitchen, 5 seconds each\nText card: '2 bed / 2 bath | 1,056 sqft | $749,000 | Fremont'\nFinal frame: BART and I-880 map proximity callout\nEnd card: open house and listing link"
+          "suggested_format": "text post with listing link — one property photo attached if platform allows",
+          "video_outline": "15–30 second clip max — state price and address immediately\nOne quick walk through the main living area\nSingle verbal point: BART and I-880 access is the investment thesis here\nEnd with: 'Open houses are running. Link in post.'"
         },
         {
           "listing_address": "39266 Marbella Terraza, Fremont, CA 94538",
           "platform": "youtube",
-          "hook": "Why a $749,000 Fremont condo makes sense for the I-580 commuter buyer right now.",
-          "caption": "Fremont sits at a real inflection point for commuters moving between the Bay and the I-580 / Altamont Corridor. This 2 bed / 2 bath condo at 39266 Marbella Terraza — 1,056 sqft, $749,000 — is a straightforward look at what entry-level ownership actually looks like in this market today.\n\nI walk through the unit, talk location, and explain why I-880 and BART access changes the math for buyers in this price range.\n\nOpen houses are active. Full listing details below.\n\n— Sri",
+          "hook": "$749K Fremont Condo — Is This the Bay Area Entry Point Buyers Are Missing?",
+          "caption": "$749,000 | 39266 Marbella Terraza, Fremont, CA\n2 Bed / 2 Bath | 1,056 sqft\n\nFremont doesn't get enough credit as a commuter-accessible, practical entry into the Bay Area market. I-880 and BART both within reach — that matters when you're running the numbers on where to buy.\n\nThis one is active and holding open houses now.\n\nI've done 500+ transactions across the Bay Area and Tri-Valley. I show you what the data says, not what sounds good.\n\nLink to listing in description.\n\n— Sri\n\nhttps://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773",
           "hashtags": "",
-          "suggested_format": "Walkthrough video with broker narration — 4 to 7 minutes, no music overlay",
-          "video_outline": "Intro: Sri on camera — 'Fremont at $749K — what the commuter buyer needs to know before the open house closes'\nExterior walkthrough — building, parking, immediate neighborhood context\nInterior tour — living space, bedrooms, both bathrooms, honest assessment of 1,056 sqft layout\nLocation breakdown: I-880 and BART access, who this commute profile fits\nClose: open house details, listing link, direct contact for questions"
+          "suggested_format": "walkthrough tour video, 4–6 minutes, no music bed, direct to camera intro and outro",
+          "video_outline": "On-camera intro: state price, address, and why Fremont matters as a commuter market right now\nWalk the unit — living space, kitchen, both beds, both baths — factual, no filler\nContext segment: explain I-880 and BART access and what that means for a buyer's daily life and resale positioning\nHonest take: who this property is right for and who it isn't — buyers, investors, or both\nClose to camera: open houses are live, link in description, reach out with questions"
         }
       ],
       "7516 Shady Hollow Dr, Newark, CA 94560": [
         {
           "listing_address": "7516 Shady Hollow Dr, Newark, CA 94560",
-          "platform": "instagram",
-          "hook": "5 bedrooms in the Bay Area under $1.4M — yes, it still exists.",
-          "caption": "7516 Shady Hollow Dr, Newark, CA — $1,398,000\n\n5 beds / 2 baths / 1,664 sqft.\n\nNewark sits in the middle of the Bay Area map. Dumbarton Bridge puts you in the Peninsula. 880 puts you everywhere else. That's not an accident — it's why this corridor continues to hold value when other pockets soften.\n\nWe're holding open houses now. Come see it in person before you form an opinion.\n\n— Sri",
+          "platform": "facebook",
+          "hook": "5 bedrooms. Newark, CA. $1,398,000.",
+          "caption": "Just listed: 7516 Shady Hollow Dr, Newark, CA — $1,398,000.\n\n5 beds / 2 baths. 1,664 sqft.\n\nNewark gives you central Bay Area access — Dumbarton Bridge connects you to the Peninsula and South Bay without paying for either zip code. That's a real advantage for buyers who are commuting in either direction.\n\nOpen houses are scheduled now.\n\nIf you want a straight conversation about whether this fits — not a sales pitch — reach out.\n\n— Sri\n\nhttps://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050463",
           "hashtags": "",
-          "suggested_format": "Single image or short reel walkthrough with address and price overlay",
-          "video_outline": "Open on the exterior — establish the neighborhood feel, not just the house\nWalk through the 5-bedroom layout — show the scale relative to the price point\nBrief callout: Newark location, Dumbarton access, central Bay Area positioning\nClose with open house invite — keep it matter-of-fact, no hard sell"
+          "suggested_format": "long",
+          "video_outline": "Open with exterior shot and Sri stating price, beds, and location plainly\nInterior walkthrough — methodical, room by room, no inflated language\nMap visual: Newark location, Dumbarton Bridge, commute directions noted\nSri on camera — speaks directly to who this property works for\nClose: open house details, listing link, invitation to ask real questions"
+        },
+        {
+          "listing_address": "7516 Shady Hollow Dr, Newark, CA 94560",
+          "platform": "instagram",
+          "hook": "5 beds. 1,664 sqft. $1,398,000. Newark.",
+          "caption": "5 bedrooms / 2 baths in the heart of Newark, CA.\n\n1,664 sqft. Dumbarton Bridge right there — San Jose or SF, your call.\n\nCentral Bay Area location at this price point doesn't sit long.\n\nOpen houses happening now.\n\nLink in bio or DM me directly.\n\n— Sri",
+          "hashtags": "",
+          "suggested_format": "property_tour",
+          "video_outline": "Open on exterior — establish the Newark neighborhood feel\nWalk through 5 bedrooms, note the square footage honestly\nCall out Dumbarton Bridge proximity on a map graphic\nMention open house schedule and price\nClose with Sri speaking to camera — direct, no hype"
         },
         {
           "listing_address": "7516 Shady Hollow Dr, Newark, CA 94560",
           "platform": "linkedin",
-          "hook": "Five bedrooms in the Bay Area for under $1.4M — here's why the location matters more than people realize.",
-          "caption": "Active listing worth knowing about: 7516 Shady Hollow Dr, Newark, CA — $1,398,000\n\n5 beds / 2 baths / 1,664 sqft\n\nNewark is central Bay Area in the truest geographic sense. Dumbarton Bridge gives you Peninsula access. I-880 gives you everything north and south. For buyers who've been priced out of Fremont or pushed to the outer edges of the corridor, this is a real alternative worth underwriting.\n\nFive bedrooms at this price point in this market is a data point, not a pitch. If you or someone you work with is evaluating the I-580 / Altamont Corridor or the broader Tri-City area, I'm happy to talk through what the numbers actually look like right now.\n\nOpen houses are running. DM me or find the full listing at the link.\n\n— Sri",
+          "hook": "5 bedrooms. Central Bay Area. $1,398,000.",
+          "caption": "Just listed: 7516 Shady Hollow Dr, Newark, CA — $1,398,000.\n\n5 beds / 2 baths. 1,664 sqft.\n\nNewark is one of the more practical locations in the Bay Area right now. Dumbarton Bridge gives you both directions — South Bay or Peninsula — without committing to either side's price premium.\n\nOpen houses are scheduled. If this fits your criteria, now is the time to look.\n\nFifteen years. 500+ transactions. I'll give you a straight read.\n\n— Sri\n\nhttps://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050463",
           "hashtags": "",
-          "suggested_format": "Static image post with property details — professional tone, no carousel needed",
-          "video_outline": "Open with the market framing: what $1.4M gets you across Bay Area submarkets right now\nIntroduce the property plainly — address, price, bed/bath, square footage\nExplain the Newark location thesis: Dumbarton, I-880, centrality — no overselling\nSpeak to who this property actually fits: practical Bay Area buyers, investors running numbers\nClose with open house info and a low-pressure invite to connect"
+          "suggested_format": "long",
+          "video_outline": "Sri on camera — lead with the price and location, no preamble\nBrief interior walkthrough highlighting the 5-bedroom layout\nOverlay or cutaway: map showing Newark, Dumbarton Bridge, commute corridors\nSri returns — speaks to who this property realistically serves\nClose with open house call to action and listing URL"
+        },
+        {
+          "listing_address": "7516 Shady Hollow Dr, Newark, CA 94560",
+          "platform": "tiktok",
+          "hook": "5 bedrooms in the Bay Area for under $1.4M — let me show you.",
+          "caption": "Newark, CA. $1,398,000. 5 beds / 2 baths, 1,664 sqft.\n\nDumbarton Bridge right there. Central Bay Area without the premium zip code price.\n\nOpen houses running now. Come see it.\n\n— Sri",
+          "hashtags": "",
+          "suggested_format": "property_tour",
+          "video_outline": "Sri opens on camera outside the property — states price and beds immediately\nWalk-and-talk through the home — 5 bedrooms, both baths, no overselling\nStep outside or use map graphic — explain the Dumbarton Bridge commute advantage\nSri back on camera — 'Open houses are happening. If this fits your numbers, show up.'\nEnd frame: address, price, link to listing"
         },
         {
           "listing_address": "7516 Shady Hollow Dr, Newark, CA 94560",
           "platform": "x",
-          "hook": "5 bed / 2 bath in Newark, CA for $1,398,000 — Dumbarton Bridge access, central Bay Area position.",
-          "caption": "Active listing: 7516 Shady Hollow Dr, Newark, CA — $1,398,000\n\n5 beds / 2 baths / 1,664 sqft\n\nNewark gets overlooked. It shouldn't. Peninsula access via Dumbarton, I-880 corridor, central to the whole Bay. Five bedrooms at this number is harder to find than most people think right now.\n\nOpen houses running. Full listing in the link.\n\n— Sri",
+          "hook": "5 beds in the Bay Area under $1.4M.",
+          "caption": "7516 Shady Hollow Dr, Newark, CA — $1,398,000.\n\n5 beds / 2 baths. 1,664 sqft. Dumbarton Bridge access. Open houses now.\n\nNewark sits centrally. That matters more than most buyers price in.\n\nhttps://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050463\n\n— Sri",
           "hashtags": "",
-          "suggested_format": "Text post with single property image attached — concise, no thread needed",
-          "video_outline": "Quick exterior shot to establish the property — under 10 seconds\nStraight to the numbers: price, beds, baths, sqft — no buildup\nOne sentence on location: Newark, Dumbarton, central Bay Area\nEnd frame: open house callout and link — clean close"
+          "suggested_format": "text",
+          "video_outline": "15-second clip: exterior of property, price and address in text overlay\nQuick cut through interior — 5 bedrooms, honest and fast\nStatic map frame showing Newark and Dumbarton Bridge\nSri to camera — one sentence on the location value\nEnd card: price, open house, link"
         },
         {
           "listing_address": "7516 Shady Hollow Dr, Newark, CA 94560",
           "platform": "youtube",
-          "hook": "What $1,398,000 actually buys you in the Bay Area right now — and why Newark deserves a second look.",
-          "caption": "7516 Shady Hollow Dr, Newark, CA 94560 | $1,398,000 | 5 Bed / 2 Bath / 1,664 Sqft\n\nMost people skip Newark when they're searching the Bay Area. That's usually a mistake. This is a central location with direct Dumbarton Bridge access to the Peninsula — the kind of commute flexibility that's genuinely hard to find at this price in this market.\n\nThis video walks through the property as it sits today. Five bedrooms in 1,664 square feet means every room is working. Open houses are happening now if you want to see it yourself.\n\nIf you're evaluating options in the I-580 corridor or the broader East Bay, this one is worth understanding — not just as a home, but as a market data point.\n\nLink in description. — Sri",
+          "hook": "5 bedrooms in the Bay Area under $1.4M — here's what that actually looks like.",
+          "caption": "7516 Shady Hollow Dr, Newark, CA — listed at $1,398,000.\n\n5 beds / 2 baths, 1,664 sqft. Newark sits in the center of the Bay Area with direct Dumbarton Bridge access — you're connected to both the Peninsula and the South Bay.\n\nOpen houses are running now. If you're evaluating this corridor seriously, come see it in person.\n\nI've been in this market 15 years, 500+ transactions. I'll tell you what I actually think.\n\n— Sri\nChannel Real Estate: https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050463",
           "hashtags": "",
-          "suggested_format": "Property walkthrough video, 4–7 minutes, narrated with market context woven in — not a hype reel",
-          "video_outline": "Introduction: Frame the price point against Bay Area norms — set honest expectations\nExterior and neighborhood context: Newark's position, Dumbarton access, I-880 proximity\nInterior walkthrough: Move through the 5-bedroom layout room by room, no narrated fluff\nMarket context segment: Why the I-580 / Dumbarton corridor continues to attract practical Bay Area buyers\nClose: Open house details, direct link, simple invite to reach out with questions"
+          "suggested_format": "property_tour",
+          "video_outline": "Intro: Sri on camera — 'Here's a 5-bedroom in Newark at $1,398,000. Let me show you what you're actually getting.'\nExterior walkthrough — street, frontage, neighborhood context\nInterior tour — all 5 bedrooms, both baths, honest assessment of 1,664 sqft\nMap segment — show Newark's position, Dumbarton Bridge commute routes to Peninsula and South Bay\nClosing: Sri direct to camera — open house details, listing link, invite serious buyers to reach out"
         }
       ]
     }

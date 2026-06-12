@@ -104,7 +104,7 @@ ANALYSIS_MODEL = "claude-haiku-4-5-20251001"   # Phase 2: pattern extraction
 GENERATION_MODEL = "claude-sonnet-4-6"         # Phase 3: draft generation
 
 # Platforms we want drafts for in Phase 3.
-TARGET_PLATFORMS = ["instagram", "youtube", "linkedin", "x"]
+TARGET_PLATFORMS = ["instagram", "youtube", "linkedin", "x", "tiktok", "facebook"]
 
 # ---------------------------------------------------------------------------
 # 6) Local paths (no cloud, no hosted DB — $0 constraint).
