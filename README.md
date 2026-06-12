@@ -130,15 +130,19 @@ A local, zero-build dashboard reads the same SQLite DB and visualizes it —
 no hosted service, Chart.js via CDN, fully $0:
 
 ```bash
-python dashboard.py        # -> http://127.0.0.1:5000
+python dashboard.py        # -> http://127.0.0.1:5050  (override with PORT=...)
 ```
 
 It shows: summary cards (runs / posts / drafts / cumulative spend), **runs over
 time** (cost + posts-collected charts), the **latest mined pattern
 distributions** (hook type, topic, CTA, hashtag strategy), and the **latest
 drafts** for review. It auto-refreshes every 15s — re-run `python main.py` in
-another terminal and the charts update on the next refresh. Read-only; nothing
-is posted.
+another terminal and the charts update on the next refresh.
+
+**✨ Generate on demand:** pick a listing + platform and click **Generate post**
+to create a fresh draft live (one Sonnet call, ~$0.01). This is **local-only** —
+it needs the SQLite DB + `ANTHROPIC_API_KEY`, so on the hosted Vercel snapshot
+the button is disabled. Drafting only; nothing is published.
 
 ### Deploy the dashboard to Vercel (free)
 

@@ -12,11 +12,20 @@ SQLite. Re-run `python main.py` and refresh the page to see updates.
     python dashboard.py            # -> http://127.0.0.1:5000
 """
 
-from flask import Flask, jsonify, render_template_string
+import os
 
+from flask import Flask, jsonify, render_template_string, request
+
+import config
 import snapshot
 
 app = Flask(__name__)
+
+
+def _generation_enabled():
+    """Generation only works locally: needs the SQLite DB + an Anthropic key."""
+    key = os.getenv("ANTHROPIC_API_KEY", "")
+    return os.path.exists(config.DB_PATH) and key and not key.startswith("your-")
 
 
 # ---------------------------------------------------------------------------
@@ -41,6 +50,35 @@ def api_patterns():
 @app.get("/api/drafts")
 def api_drafts():
     return jsonify(snapshot.get_data()["drafts"])
+
+
+@app.get("/api/config")
+def api_config():
+    """Listings + platforms for the generate controls, and whether it's enabled."""
+    return jsonify(
+        listings=[l["address"] for l in config.LISTINGS],
+        platforms=config.TARGET_PLATFORMS,
+        generation_enabled=_generation_enabled(),
+    )
+
+
+@app.post("/api/generate")
+def api_generate():
+    """On-demand single-platform draft generation (local only)."""
+    if not _generation_enabled():
+        return jsonify(error="Generation is local-only: run the dashboard locally "
+                       "with a SQLite DB and ANTHROPIC_API_KEY in .env."), 403
+    body = request.get_json(force=True, silent=True) or {}
+    listing = body.get("listing")
+    platform = body.get("platform")
+    if not listing or not platform:
+        return jsonify(error="listing and platform are required."), 400
+
+    from phases.p3_apply import generate_one
+    draft, err = generate_one(listing, platform)
+    if err:
+        return jsonify(error=err), 400
+    return jsonify(draft=draft)
 
 
 # ---------------------------------------------------------------------------
@@ -91,6 +129,13 @@ PAGE = """
   .tag { display:inline-block; background:#222836; color:var(--mut);
          border-radius:5px; padding:1px 7px; font-size:12px; margin-right:4px; }
   .listing-h { font-size:15px; margin:18px 0 6px; color:var(--accent2); }
+  .sel { background:var(--bg); color:var(--txt); border:1px solid var(--line);
+         border-radius:8px; padding:8px 10px; font:14px inherit; }
+  .btn { background:var(--accent); color:#fff; border:none; border-radius:8px;
+         padding:9px 16px; font:600 14px inherit; cursor:pointer; }
+  .btn:disabled { opacity:.5; cursor:not-allowed; }
+  .gen-card { background:var(--bg); border:1px solid var(--accent);
+              border-radius:10px; padding:14px 16px; margin-top:14px; }
   @media (max-width:820px){ .cards{grid-template-columns:repeat(2,1fr);}
                             .grid2{grid-template-columns:1fr;} }
 </style>
@@ -121,6 +166,17 @@ PAGE = """
       <div><canvas id="ctaChart"></canvas></div>
       <div><canvas id="hashChart"></canvas></div>
     </div>
+  </div>
+
+  <div class="panel">
+    <h2>✨ Generate a post on demand</h2>
+    <div id="genControls" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <select id="genListing" class="sel"></select>
+      <select id="genPlatform" class="sel"></select>
+      <button id="genBtn" class="btn">Generate post</button>
+      <span id="genStatus" class="market"></span>
+    </div>
+    <div id="genResult"></div>
   </div>
 
   <div class="panel">
@@ -206,6 +262,49 @@ async function load(){
 function esc(s){ return (s||'').replace(/[&<>]/g,
   c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])); }
 
+async function initGen(){
+  const cfg = await fetch('/api/config').then(r=>r.json());
+  const lSel = document.getElementById('genListing');
+  const pSel = document.getElementById('genPlatform');
+  lSel.innerHTML = cfg.listings.map(a=>`<option>${esc(a)}</option>`).join('');
+  pSel.innerHTML = cfg.platforms.map(p=>`<option>${esc(p)}</option>`).join('');
+  const btn = document.getElementById('genBtn');
+  const status = document.getElementById('genStatus');
+  if(!cfg.generation_enabled){
+    btn.disabled = true;
+    status.textContent = 'Generation runs only on the local dashboard (needs DB + ANTHROPIC_API_KEY).';
+    return;
+  }
+  btn.onclick = async () => {
+    btn.disabled = true; status.textContent = 'Generating…';
+    try {
+      const res = await fetch('/api/generate', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ listing:lSel.value, platform:pSel.value })
+      }).then(r=>r.json());
+      if(res.error){ status.textContent = '⚠ '+res.error; }
+      else {
+        const d = res.draft;
+        status.textContent = `Done · ~$${d.est_cost}`;
+        document.getElementById('genResult').innerHTML = `
+          <div class="gen-card">
+            <div class="listing-h">🏠 ${esc(d.listing_address)} · <b>${esc(d.platform)}</b>
+              <span class="tag">${esc(d.suggested_format)}</span></div>
+            <p><b>Hook:</b> ${esc(d.hook)}</p>
+            <pre class="cap">${esc(d.caption)}</pre>
+            <p>${(d.hashtags||'').split(/\\s+/).filter(Boolean)
+                  .map(h=>`<span class="tag">${esc(h)}</span>`).join('')}</p>
+            <p><b>Video outline:</b></p>
+            <pre class="cap">${esc(d.video_outline||'(none)')}</pre>
+          </div>`;
+        load();  // refresh the latest-drafts list + cards
+      }
+    } catch(e){ status.textContent = '⚠ '+e; }
+    btn.disabled = false;
+  };
+}
+
+initGen();
 load();
 setInterval(load, 15000);
 </script>
@@ -220,5 +319,7 @@ def index():
 
 
 if __name__ == "__main__":
-    print("Dashboard -> http://127.0.0.1:5000  (Ctrl+C to stop)")
-    app.run(host="127.0.0.1", port=5000, debug=False)
+    # Default to 5050 — macOS AirPlay Receiver squats on 5000. Override with PORT.
+    port = int(os.getenv("PORT", "5050"))
+    print(f"Dashboard -> http://127.0.0.1:{port}  (Ctrl+C to stop)")
+    app.run(host="127.0.0.1", port=port, debug=False)
