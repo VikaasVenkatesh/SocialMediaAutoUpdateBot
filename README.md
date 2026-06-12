@@ -45,6 +45,7 @@ Ramon, Tracy, Mountain House, Manteca, Lathrop, Ripon, Stockton, Modesto).
 ```
 SocialMediaAutoUpdateBot/
 ├── main.py              # runs phases 1→5 in order
+├── dashboard.py         # local Flask + Chart.js dashboard over the SQLite data
 ├── config.py            # EDIT THIS: listings, brand brief, markets, caps, models
 ├── db.py                # SQLite schema + helpers (posts, pattern_reports, drafts, runs)
 ├── seed_posts.csv       # manual X/IG/LinkedIn rows (3 dummy rows included)
@@ -120,6 +121,24 @@ estimated token spend. Each phase is also runnable standalone for debugging:
 python -m phases.p1_collect
 python -m phases.p2_study
 ```
+
+---
+
+## Dashboard (visualize runs over time)
+
+A local, zero-build dashboard reads the same SQLite DB and visualizes it —
+no hosted service, Chart.js via CDN, fully $0:
+
+```bash
+python dashboard.py        # -> http://127.0.0.1:5000
+```
+
+It shows: summary cards (runs / posts / drafts / cumulative spend), **runs over
+time** (cost + posts-collected charts), the **latest mined pattern
+distributions** (hook type, topic, CTA, hashtag strategy), and the **latest
+drafts** for review. It auto-refreshes every 15s — re-run `python main.py` in
+another terminal and the charts update on the next refresh. Read-only; nothing
+is posted.
 
 ---
 
