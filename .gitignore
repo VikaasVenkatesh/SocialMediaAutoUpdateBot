@@ -1,0 +1,20 @@
+# Secrets — never commit
+.env
+
+# Local SQLite database + generated output
+data/*.db
+output/*.md
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

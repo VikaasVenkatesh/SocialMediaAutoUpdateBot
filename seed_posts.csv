@@ -1,0 +1,4 @@
+platform,post_url,author,caption_text,likes,comments,shares_or_saves,format
+instagram,https://instagram.com/p/DUMMY1,@example_realtor,"Just sold in Tracy 🏡 3 offers over asking in 6 days. Here's the one thing every commuter buyer asked about → the Altamont drive. Swipe for the numbers. DM 'TRACY' for the full breakdown.",1240,88,210,carousel
+x,https://x.com/example/status/DUMMY2,@valley_homes,"Manteca vs Mountain House in 2024: same commute, $90k price gap. Thread on why Valley buyers are crossing the 205 line 🧵",640,54,120,text
+linkedin,https://linkedin.com/posts/DUMMY3,Example Broker,"15 years in this market taught me one thing: the listing that sits isn't overpriced, it's under-told. Here's how we repositioned a Livermore home and closed in 9 days.",430,37,61,text

@@ -1,0 +1,4 @@
+# Free PoC dependencies only. sqlite3 ships with the Python stdlib.
+google-api-python-client>=2.0    # YouTube Data API v3 collector (Phase 1)
+anthropic>=0.40                  # Claude API (Phases 2 & 3)
+python-dotenv>=1.0               # load YOUTUBE_API_KEY / ANTHROPIC_API_KEY from .env
