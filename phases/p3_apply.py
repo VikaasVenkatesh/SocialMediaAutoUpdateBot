@@ -140,15 +140,15 @@ def _build_single_prompt(listing, platform, summary, patterns_json):
     )
 
 
-def generate_one(listing_address: str, platform: str, pattern_report_id: int = None):
-    """Generate + store a single draft on demand (used by the dashboard button).
+def generate_draft(listing_address, platform, summary, patterns_json):
+    """Pure generation: one Sonnet call, no DB. Returns (draft_dict, err).
 
-    Returns (draft_dict, error_str). On success error_str is None.
+    Works anywhere (local or serverless) — the caller supplies the pattern
+    summary + patterns (from SQLite locally, or the snapshot when hosted).
     """
-    db.init_db()
     api_key = os.getenv("ANTHROPIC_API_KEY")
     if not api_key or api_key.startswith("your-"):
-        return None, "ANTHROPIC_API_KEY not set — add it to .env to generate."
+        return None, "ANTHROPIC_API_KEY not set."
     try:
         import anthropic
     except ImportError:
@@ -160,7 +160,39 @@ def generate_one(listing_address: str, platform: str, pattern_report_id: int = N
     if not listing:
         return None, f"Unknown listing: {listing_address}"
 
-    # Use the most recent pattern report (any run) as the style guide.
+    client = anthropic.Anthropic(api_key=api_key)
+    msg = client.messages.create(
+        model=config.GENERATION_MODEL,
+        max_tokens=1500,
+        messages=[{"role": "user",
+                   "content": _build_single_prompt(listing, platform,
+                                                    summary or "", patterns_json or {})}],
+    )
+    text = "".join(b.text for b in msg.content if b.type == "text")
+    d = _safe_json_object(text)
+    if not d:
+        return None, "Could not parse model output. Try again."
+
+    cost = estimate_cost(config.GENERATION_MODEL, msg.usage.input_tokens,
+                         msg.usage.output_tokens)
+    draft = {
+        "listing_address": listing_address,
+        "platform": platform,
+        "hook": d.get("hook", ""),
+        "caption": d.get("caption", ""),
+        "hashtags": _join(d.get("hashtags")),
+        "suggested_format": d.get("suggested_format", ""),
+        "video_outline": _join(d.get("video_outline"), sep="\n"),
+        "est_cost": round(cost, 4),
+        "_raw": d, "_in": msg.usage.input_tokens, "_out": msg.usage.output_tokens,
+        "_cost": cost,
+    }
+    return draft, None
+
+
+def generate_one(listing_address: str, platform: str, pattern_report_id: int = None):
+    """Local path: load patterns from SQLite, generate, store + log. (draft, err)."""
+    db.init_db()
     with db.get_conn() as conn:
         if pattern_report_id:
             report = conn.execute(
@@ -175,34 +207,14 @@ def generate_one(listing_address: str, platform: str, pattern_report_id: int = N
 
     summary = report["summary"] or ""
     patterns_json = json.loads(report["report_json"]).get("patterns", {})
-    client = anthropic.Anthropic(api_key=api_key)
-    msg = client.messages.create(
-        model=config.GENERATION_MODEL,
-        max_tokens=1500,
-        messages=[{"role": "user",
-                   "content": _build_single_prompt(listing, platform, summary,
-                                                    patterns_json)}],
-    )
-    text = "".join(b.text for b in msg.content if b.type == "text")
-    d = _safe_json_object(text)
-    if not d:
-        return None, "Could not parse model output. Try again."
+    draft, err = generate_draft(listing_address, platform, summary, patterns_json)
+    if err:
+        return None, err
 
-    _store_drafts(report["run_id"], report["id"], listing, {platform: d})
-    cost = estimate_cost(config.GENERATION_MODEL, msg.usage.input_tokens,
-                         msg.usage.output_tokens)
-    log_spend(report["run_id"], msg.usage.input_tokens, msg.usage.output_tokens, cost)
-
-    return {
-        "listing_address": listing_address,
-        "platform": platform,
-        "hook": d.get("hook", ""),
-        "caption": d.get("caption", ""),
-        "hashtags": _join(d.get("hashtags")),
-        "suggested_format": d.get("suggested_format", ""),
-        "video_outline": _join(d.get("video_outline"), sep="\n"),
-        "est_cost": round(cost, 4),
-    }, None
+    listing = next(l for l in config.LISTINGS if l["address"] == listing_address)
+    _store_drafts(report["run_id"], report["id"], listing, {platform: draft["_raw"]})
+    log_spend(report["run_id"], draft["_in"], draft["_out"], draft["_cost"])
+    return draft, None
 
 
 def apply(run_id: str, pattern_report_id: int = None) -> int:

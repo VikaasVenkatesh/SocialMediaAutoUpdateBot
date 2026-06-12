@@ -22,10 +22,22 @@ import snapshot
 app = Flask(__name__)
 
 
-def _generation_enabled():
-    """Generation only works locally: needs the SQLite DB + an Anthropic key."""
+def _gen_state():
+    """Where/whether generation is allowed.
+
+    - Local: SQLite DB present + Anthropic key  -> enabled, no password.
+    - Hosted (Vercel, no DB): Anthropic key env + GENERATE_PASSWORD set
+      -> enabled, password required (so strangers can't spend your credits).
+    """
     key = os.getenv("ANTHROPIC_API_KEY", "")
-    return os.path.exists(config.DB_PATH) and key and not key.startswith("your-")
+    has_key = bool(key) and not key.startswith("your-")
+    has_db = os.path.exists(config.DB_PATH)
+    has_pw = bool(os.getenv("GENERATE_PASSWORD", ""))
+    enabled = has_key and (has_db or has_pw)
+    # Require a password whenever there's no local DB (i.e. the hosted site).
+    requires_password = enabled and (has_pw and not has_db or has_pw)
+    return {"enabled": enabled, "requires_password": requires_password,
+            "has_db": has_db}
 
 
 # ---------------------------------------------------------------------------
@@ -60,29 +72,49 @@ def api_trends():
 @app.get("/api/config")
 def api_config():
     """Listings + platforms for the generate controls, and whether it's enabled."""
+    state = _gen_state()
     return jsonify(
         listings=[l["address"] for l in config.LISTINGS],
         platforms=config.TARGET_PLATFORMS,
-        generation_enabled=_generation_enabled(),
+        generation_enabled=state["enabled"],
+        requires_password=state["requires_password"],
     )
 
 
 @app.post("/api/generate")
 def api_generate():
-    """On-demand single-platform draft generation (local only)."""
-    if not _generation_enabled():
-        return jsonify(error="Generation is local-only: run the dashboard locally "
-                       "with a SQLite DB and ANTHROPIC_API_KEY in .env."), 403
+    """On-demand single-platform draft generation.
+
+    Local: generates from SQLite + stores. Hosted: generates from the committed
+    snapshot's patterns, gated by a password so strangers can't spend credits.
+    """
+    state = _gen_state()
+    if not state["enabled"]:
+        return jsonify(error="Generation isn't configured on this deployment."), 403
+
     body = request.get_json(force=True, silent=True) or {}
+    if state["requires_password"]:
+        supplied = body.get("password") or request.headers.get("X-Gen-Password", "")
+        if supplied != os.getenv("GENERATE_PASSWORD", ""):
+            return jsonify(error="Invalid or missing password."), 401
+
     listing = body.get("listing")
     platform = body.get("platform")
     if not listing or not platform:
         return jsonify(error="listing and platform are required."), 400
 
-    from phases.p3_apply import generate_one
-    draft, err = generate_one(listing, platform)
+    if state["has_db"]:
+        from phases.p3_apply import generate_one
+        draft, err = generate_one(listing, platform)
+    else:
+        from phases.p3_apply import generate_draft
+        pat = snapshot.get_data().get("patterns", {})
+        draft, err = generate_draft(listing, platform, pat.get("summary", ""),
+                                    pat.get("patterns", {}))
     if err:
         return jsonify(error=err), 400
+    # Strip internal fields before returning.
+    draft = {k: v for k, v in draft.items() if not k.startswith("_")}
     return jsonify(draft=draft)
 
 
@@ -183,6 +215,8 @@ PAGE = """
     <div id="genControls" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
       <select id="genListing" class="sel"></select>
       <select id="genPlatform" class="sel"></select>
+      <input id="genPw" class="sel" type="password" placeholder="password"
+             style="display:none; width:150px;" autocomplete="off"/>
       <button id="genBtn" class="btn">Generate post</button>
       <span id="genStatus" class="market"></span>
     </div>
@@ -296,17 +330,25 @@ async function initGen(){
   pSel.innerHTML = cfg.platforms.map(p=>`<option>${esc(p)}</option>`).join('');
   const btn = document.getElementById('genBtn');
   const status = document.getElementById('genStatus');
+  const pwField = document.getElementById('genPw');
   if(!cfg.generation_enabled){
     btn.disabled = true;
-    status.textContent = 'Generation runs only on the local dashboard (needs DB + ANTHROPIC_API_KEY).';
+    status.textContent = 'Generation is not configured on this deployment.';
     return;
+  }
+  if(cfg.requires_password){
+    pwField.style.display = '';
+    pwField.value = localStorage.getItem('genPw') || '';
+    status.textContent = 'Enter the password to generate.';
   }
   btn.onclick = async () => {
     btn.disabled = true; status.textContent = 'Generating…';
+    if(cfg.requires_password) localStorage.setItem('genPw', pwField.value);
     try {
       const res = await fetch('/api/generate', {
         method:'POST', headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ listing:lSel.value, platform:pSel.value })
+        body: JSON.stringify({ listing:lSel.value, platform:pSel.value,
+                               password: pwField.value })
       }).then(r=>r.json());
       if(res.error){ status.textContent = '⚠ '+res.error; }
       else {
