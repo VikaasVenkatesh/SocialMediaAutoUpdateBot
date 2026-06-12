@@ -12,83 +12,35 @@ SQLite. Re-run `python main.py` and refresh the page to see updates.
     python dashboard.py            # -> http://127.0.0.1:5000
 """
 
-import json
-
 from flask import Flask, jsonify, render_template_string
 
-import config
-import db
+import snapshot
 
 app = Flask(__name__)
 
 
 # ---------------------------------------------------------------------------
-# JSON APIs (read-only) — the frontend polls these.
+# JSON APIs (read-only). Source data from the shared snapshot layer: live
+# SQLite when running locally, the committed snapshot.json when on Vercel.
 # ---------------------------------------------------------------------------
 @app.get("/api/summary")
 def api_summary():
-    with db.get_conn() as conn:
-        runs = conn.execute("SELECT COUNT(*) FROM runs").fetchone()[0]
-        posts = conn.execute("SELECT COUNT(*) FROM posts").fetchone()[0]
-        drafts = conn.execute("SELECT COUNT(*) FROM drafts").fetchone()[0]
-        spend = conn.execute(
-            "SELECT COALESCE(SUM(est_cost_usd), 0) FROM runs"
-        ).fetchone()[0]
-    return jsonify(
-        runs=runs, posts=posts, drafts=drafts, spend=round(spend or 0, 4),
-        market=config.MARKET_LABEL,
-    )
+    return jsonify(snapshot.get_data()["summary"])
 
 
 @app.get("/api/runs")
 def api_runs():
-    """Time series: one point per run (chronological)."""
-    with db.get_conn() as conn:
-        rows = conn.execute(
-            "SELECT run_id, started_at, posts_collected, "
-            "est_cost_usd, est_input_tokens, est_output_tokens "
-            "FROM runs ORDER BY started_at ASC"
-        ).fetchall()
-    return jsonify([dict(r) for r in rows])
+    return jsonify(snapshot.get_data()["runs"])
 
 
 @app.get("/api/patterns")
 def api_patterns():
-    """Latest run's pattern distributions + summary."""
-    with db.get_conn() as conn:
-        row = conn.execute(
-            "SELECT run_id, posts_studied, report_json, summary "
-            "FROM pattern_reports ORDER BY id DESC LIMIT 1"
-        ).fetchone()
-    if not row:
-        return jsonify(patterns={}, summary="No pattern report yet.",
-                       posts_studied=0, run_id=None)
-    patterns = json.loads(row["report_json"]).get("patterns", {})
-    return jsonify(
-        run_id=row["run_id"], posts_studied=row["posts_studied"],
-        summary=row["summary"], patterns=patterns,
-    )
+    return jsonify(snapshot.get_data()["patterns"])
 
 
 @app.get("/api/drafts")
 def api_drafts():
-    """Latest run's drafts, grouped by listing."""
-    with db.get_conn() as conn:
-        latest = conn.execute(
-            "SELECT run_id FROM drafts ORDER BY id DESC LIMIT 1"
-        ).fetchone()
-        if not latest:
-            return jsonify(run_id=None, listings={})
-        rows = conn.execute(
-            "SELECT listing_address, platform, hook, caption, hashtags, "
-            "suggested_format, video_outline FROM drafts "
-            "WHERE run_id = ? ORDER BY listing_address, platform",
-            (latest["run_id"],),
-        ).fetchall()
-    listings = {}
-    for r in rows:
-        listings.setdefault(r["listing_address"], []).append(dict(r))
-    return jsonify(run_id=latest["run_id"], listings=listings)
+    return jsonify(snapshot.get_data()["drafts"])
 
 
 # ---------------------------------------------------------------------------
@@ -268,6 +220,5 @@ def index():
 
 
 if __name__ == "__main__":
-    db.init_db()
     print("Dashboard -> http://127.0.0.1:5000  (Ctrl+C to stop)")
     app.run(host="127.0.0.1", port=5000, debug=False)

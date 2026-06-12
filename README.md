@@ -140,6 +140,31 @@ drafts** for review. It auto-refreshes every 15s — re-run `python main.py` in
 another terminal and the charts update on the next refresh. Read-only; nothing
 is posted.
 
+### Deploy the dashboard to Vercel (free)
+
+Vercel is serverless and ephemeral — it can't read your local SQLite DB. So the
+hosted dashboard renders a **committed snapshot** (`data/snapshot.json`) instead.
+The same `dashboard.py` reads live SQLite locally and the snapshot when hosted.
+
+**How updates flow:** run `python main.py` (it refreshes `data/snapshot.json`
+automatically) → commit + push → Vercel redeploys → hosted dashboard shows the
+new run. It is a snapshot, not a live feed; for a truly live hosted dashboard
+you'd move storage to a hosted Postgres (see Upgrade path).
+
+**One-time deploy (no CLI needed):**
+1. Push this repo to GitHub (already done).
+2. Go to [vercel.com/new](https://vercel.com/new) → **Import** this Git repo.
+3. Framework preset: **Other**. Leave build/output settings empty. Click **Deploy**.
+   (`vercel.json` routes everything to the `api/index.py` Python function;
+   `api/requirements.txt` keeps the function slim — just Flask.)
+4. Open the generated `*.vercel.app` URL.
+
+**To update later:** `python main.py` → `git add data/snapshot.json && git commit
+&& git push`. Vercel auto-redeploys on push.
+
+Deploy files: `api/index.py` (WSGI entry), `api/requirements.txt` (Flask only),
+`vercel.json` (routing), `snapshot.py` (export/snapshot layer).
+
 ---
 
 ## Expected token cost

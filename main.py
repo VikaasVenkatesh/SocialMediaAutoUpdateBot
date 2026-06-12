@@ -58,6 +58,11 @@ def main():
     path = p5_report.report(run_id, compare_md)
     print(f"[5] digest written -> {path}")
 
+    # Refresh the dashboard snapshot (commit + push it to update the Vercel site).
+    import snapshot
+    snap = snapshot.write()
+    print(f"[+] dashboard snapshot refreshed -> {snap}")
+
 
 if __name__ == "__main__":
     main()
