@@ -31,7 +31,10 @@ def _gen_state():
     """
     key = os.getenv("ANTHROPIC_API_KEY", "")
     has_key = bool(key) and not key.startswith("your-")
-    has_db = os.path.exists(config.DB_PATH)
+    # On Vercel the filesystem is read-only and VERCEL=1 is set — force the
+    # snapshot (no-DB) generation path even if a stray DB file was uploaded.
+    on_vercel = bool(os.getenv("VERCEL"))
+    has_db = os.path.exists(config.DB_PATH) and not on_vercel
     has_pw = bool(os.getenv("GENERATE_PASSWORD", ""))
     enabled = has_key and (has_db or has_pw)
     # Require a password whenever there's no local DB (i.e. the hosted site).

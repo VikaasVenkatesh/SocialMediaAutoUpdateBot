@@ -1,0 +1,9 @@
+# Keep deployments small + avoid uploading local-only files.
+# The hosted dashboard serves data/snapshot.json (committed), NOT the SQLite DB.
+.venv
+venv
+data/*.db
+.env
+output
+__pycache__
+*.pyc

@@ -103,8 +103,12 @@ def load(path: str = SNAPSHOT_PATH) -> dict:
 
 
 def get_data() -> dict:
-    """Live SQLite if available (local dev), else the committed snapshot (Vercel)."""
-    if os.path.exists(config.DB_PATH):
+    """Live SQLite if available (local dev), else the committed snapshot (Vercel).
+
+    On Vercel (VERCEL=1, read-only FS) always use the committed snapshot, even if
+    a stray DB file was uploaded.
+    """
+    if os.path.exists(config.DB_PATH) and not os.getenv("VERCEL"):
         return build()
     return load()
 
