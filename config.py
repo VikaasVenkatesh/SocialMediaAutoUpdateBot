@@ -12,20 +12,41 @@ that fits inside free starter credits. See MAX_POSTS_PER_RUN below.
 # 1) Sri's current listings — entered by hand for the PoC.
 #    Replace the dummy listing below with 1–2 of Sri's REAL active listings.
 # ---------------------------------------------------------------------------
+# NOTE: pulled from channelrealestate.com/our-active-listings on 2026-06-12.
+# That page is an IDX/MLS search feed (total_listings=6613), so VERIFY these are
+# Sri's OWN listings before publishing anything. Only facts shown on the site are
+# used below — no amenities are invented. Fill in key_features/media_notes with
+# real specifics before a real run.
 LISTINGS = [
     {
-        # >>> DUMMY PLACEHOLDER — replace before real use <<<
-        "address": "123 Example Ave, Manteca, CA 95336",
-        "price": "$675,000",
-        "beds": 4,
-        "baths": 3,
+        "address": "7516 Shady Hollow Dr, Newark, CA 94560",
+        "price": "$1,398,000",
+        "beds": 5,
+        "baths": 2,
+        "sqft": 1664,
         "key_features": [
-            "Built 2019, low-maintenance yard",
-            "Commuter-friendly: minutes to I-205 / Altamont Pass",
-            "Open-concept kitchen, owned solar",
+            "5 bedrooms / 2 baths, 1,664 sqft",
+            "Newark — central Bay Area, Dumbarton Bridge commuter access",
+            "Currently holding open houses",
         ],
         "status": "active",
-        "media_notes": "Have 20 photos + a 45s walkthrough clip. No drone yet.",
+        "media_notes": "Confirm photo/video assets before drafting visuals.",
+        "source_url": "https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050463",
+    },
+    {
+        "address": "39266 Marbella Terraza, Fremont, CA 94538",
+        "price": "$749,000",
+        "beds": 2,
+        "baths": 2,
+        "sqft": 1056,
+        "key_features": [
+            "2 bed / 2 bath condo, 1,056 sqft",
+            "Fremont — I-880 / BART-accessible, strong commuter entry point",
+            "Currently holding open houses",
+        ],
+        "status": "active",
+        "media_notes": "Confirm photo/video assets before drafting visuals.",
+        "source_url": "https://www.channelrealestate.com/-/listing/CA-REINFOLINK/ML82050773",
     },
 ]
 
