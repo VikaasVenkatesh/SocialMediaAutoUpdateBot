@@ -124,37 +124,41 @@ def _extract_patterns(top_posts):
 
     client = anthropic.Anthropic(api_key=api_key)
 
-    # Slim payload to keep tokens tiny: index + platform + format + caption.
-    payload = [
-        {
-            "i": idx,
-            "platform": p["platform"],
-            "format": p["format"],
-            "caption": (p["caption_text"] or "")[:800],
-        }
-        for idx, p in enumerate(top_posts)
-    ]
+    # Batch in chunks so the JSON response never overflows max_tokens (which
+    # silently truncates and breaks parsing). ~20 posts/call is comfortable.
+    chunk_size = 20
+    all_parsed = []
+    total_in = total_out = 0
 
-    prompt = (
-        "You are analyzing top-performing real estate social posts to extract "
-        "reusable patterns. For EACH post in the JSON array, return an object "
-        f"with exactly these keys: {EXTRACT_FIELDS}. Use short lowercase tokens. "
-        "Return ONLY a JSON array, one object per input post, same order.\n\n"
-        f"POSTS:\n{json.dumps(payload, ensure_ascii=False)}"
-    )
+    for start in range(0, len(top_posts), chunk_size):
+        chunk = top_posts[start : start + chunk_size]
+        payload = [
+            {
+                "i": idx,
+                "platform": p["platform"],
+                "format": p["format"],
+                "caption": (p["caption_text"] or "")[:800],
+            }
+            for idx, p in enumerate(chunk)
+        ]
+        prompt = (
+            "You are analyzing top-performing real estate social posts to extract "
+            "reusable patterns. For EACH post in the JSON array, return an object "
+            f"with exactly these keys: {EXTRACT_FIELDS}. Use short lowercase tokens. "
+            "Return ONLY a JSON array, one object per input post, same order.\n\n"
+            f"POSTS:\n{json.dumps(payload, ensure_ascii=False)}"
+        )
+        msg = client.messages.create(
+            model=config.ANALYSIS_MODEL,
+            max_tokens=4096,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        text = "".join(b.text for b in msg.content if b.type == "text")
+        all_parsed.extend(_safe_json_array(text, expected=len(chunk)))
+        total_in += msg.usage.input_tokens
+        total_out += msg.usage.output_tokens
 
-    msg = client.messages.create(
-        model=config.ANALYSIS_MODEL,
-        max_tokens=2048,
-        messages=[{"role": "user", "content": prompt}],
-    )
-    text = "".join(b.text for b in msg.content if b.type == "text")
-    parsed = _safe_json_array(text, expected=len(top_posts))
-    usage = {
-        "input_tokens": msg.usage.input_tokens,
-        "output_tokens": msg.usage.output_tokens,
-    }
-    return parsed, usage
+    return all_parsed, {"input_tokens": total_in, "output_tokens": total_out}
 
 
 def _safe_json_array(text, expected):

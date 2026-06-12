@@ -68,7 +68,7 @@ def collect_youtube(run_id: str, remaining: int):
     now = dt.datetime.now().isoformat(timespec="seconds")
     # Recent content only — published within the last 90 days.
     published_after = (
-        dt.datetime.utcnow() - dt.timedelta(days=90)
+        dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=90)
     ).strftime("%Y-%m-%dT%H:%M:%SZ")
 
     video_ids = []          # preserve discovery order
