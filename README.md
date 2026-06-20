@@ -124,6 +124,20 @@ python -m phases.p2_study
 
 ---
 
+## Image cards for image-first platforms (free, no AI)
+
+`imagegen.py` builds a branded social graphic from a listing's **real photo** +
+a text overlay (price, beds/baths/sqft, address, Sri's brand strip) using Pillow
+— no paid image API, no AI-hallucinated houses. On the dashboard, the **Generate
+image card** panel renders one for Instagram / LinkedIn / Facebook and shows it
+inline (right-click to save). Returns a base64 PNG, so it works hosted too.
+
+`listings.py` parses real current listings (with photo URLs) from Sri's IDX site.
+**Ownership caveat:** that public feed is the whole MLS (many brokerages — each
+card credits its real listing broker), so parsed listings are flagged **AREA
+DEMO** and badged as such on the image, to avoid implying they're Sri's own.
+Refresh with `python -m listings` (writes `data/listings.json`).
+
 ## Dashboard (visualize runs over time)
 
 A local, zero-build dashboard reads the same SQLite DB and visualizes it —

@@ -4,3 +4,4 @@ anthropic>=0.40                  # Claude API (Phases 2 & 3)
 python-dotenv>=1.0               # load YOUTUBE_API_KEY / ANTHROPIC_API_KEY from .env
 flask>=3.0                       # local visualization dashboard (dashboard.py)
 pytrends>=4.9                     # free Google Trends signal (trends.py, no auth)
+pillow>=10.0                      # image-card generator (imagegen.py), free/no API

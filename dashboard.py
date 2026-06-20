@@ -73,6 +73,82 @@ def api_trends():
     return jsonify(snapshot.get_data().get("trends", []))
 
 
+def _parsed_listings():
+    """Real listings parsed from Sri's IDX site (committed data/listings.json)."""
+    import json
+    p = os.path.join(os.path.dirname(__file__), "data", "listings.json")
+    try:
+        with open(p, encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return []
+
+
+# Platforms where a single image card is the deliverable.
+IMAGE_PLATFORMS = ["instagram", "linkedin", "facebook"]
+
+
+@app.get("/api/image_listings")
+def api_image_listings():
+    rows = _parsed_listings()
+    out = [{
+        "index": i,
+        "address": r.get("address", ""),
+        "price": r.get("price", ""),
+        "specs": " · ".join(filter(None, [
+            f"{r['beds']} bd" if r.get("beds") else "",
+            f"{r['baths']} ba" if r.get("baths") else "",
+            f"{r['sqft']:,} sqft" if r.get("sqft") else "",
+        ])),
+        "courtesy": r.get("courtesy", ""),
+        "demo": not r.get("is_channel", False),
+    } for i, r in enumerate(rows)]
+    return jsonify(listings=out, platforms=IMAGE_PLATFORMS,
+                   enabled=bool(rows))
+
+
+@app.post("/api/generate_image")
+def api_generate_image():
+    """Render a branded image card from a real listing photo (free, no API)."""
+    state = _gen_state()
+    body = request.get_json(force=True, silent=True) or {}
+    # Same password gate as text generation when hosted.
+    if state["requires_password"]:
+        supplied = body.get("password") or request.headers.get("X-Gen-Password", "")
+        if supplied != os.getenv("GENERATE_PASSWORD", ""):
+            return jsonify(error="Invalid or missing password."), 401
+
+    client_ip = (request.headers.get("X-Forwarded-For", request.remote_addr or "?")
+                 .split(",")[0].strip())
+    ok, retry_after = ratelimit.check_many([
+        (f"img:{client_ip}", *config.RATE_LIMIT_PER_IP),
+    ])
+    if not ok:
+        resp = jsonify(error=f"Rate limit reached. Try again in ~{retry_after}s.")
+        resp.headers["Retry-After"] = str(retry_after)
+        return resp, 429
+
+    rows = _parsed_listings()
+    try:
+        idx = int(body.get("index", -1))
+        listing = rows[idx]
+    except (ValueError, IndexError):
+        return jsonify(error="Invalid listing."), 400
+    platform = body.get("platform", "instagram")
+
+    import base64
+    import imagegen
+    city = listing.get("address", "").split(" CA")[0].strip()
+    png = imagegen.make_card(
+        listing, platform,
+        hook=f"Just listed in {city}" if city else None,
+        demo=not listing.get("is_channel", False),
+    )
+    uri = "data:image/png;base64," + base64.b64encode(png).decode()
+    return jsonify(image=uri, address=listing.get("address", ""),
+                   demo=not listing.get("is_channel", False))
+
+
 @app.get("/api/config")
 def api_config():
     """Listings + platforms for the generate controls, and whether it's enabled."""
@@ -240,6 +316,17 @@ PAGE = """
   </div>
 
   <div class="panel">
+    <h2>🖼 Generate an image card <span class="market">· for Instagram / LinkedIn / Facebook (real listing photo + brand)</span></h2>
+    <div style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+      <select id="imgListing" class="sel" style="max-width:340px;"></select>
+      <select id="imgPlatform" class="sel"></select>
+      <button id="imgBtn" class="btn">Generate image</button>
+      <span id="imgStatus" class="market"></span>
+    </div>
+    <div id="imgResult" style="margin-top:14px;"></div>
+  </div>
+
+  <div class="panel">
     <h2>Latest drafts (for review — nothing auto-posts)</h2>
     <div id="drafts"></div>
   </div>
@@ -388,7 +475,43 @@ async function initGen(){
   };
 }
 
+async function initImg(){
+  const cfg = await fetch('/api/image_listings').then(r=>r.json());
+  const lSel = document.getElementById('imgListing');
+  const pSel = document.getElementById('imgPlatform');
+  const btn = document.getElementById('imgBtn');
+  const status = document.getElementById('imgStatus');
+  if(!cfg.enabled){
+    btn.disabled = true;
+    status.textContent = 'No parsed listings yet (run: python -m listings).';
+    return;
+  }
+  lSel.innerHTML = cfg.listings.map(l=>
+    `<option value="${l.index}">${esc(l.address)} — ${esc(l.price)}${l.demo?' [DEMO]':''}</option>`).join('');
+  pSel.innerHTML = cfg.platforms.map(p=>`<option>${esc(p)}</option>`).join('');
+  const genCfg = await fetch('/api/config').then(r=>r.json());
+  btn.onclick = async () => {
+    btn.disabled = true; status.textContent = 'Rendering…';
+    try {
+      const res = await fetch('/api/generate_image', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({ index:Number(lSel.value), platform:pSel.value,
+          password: (document.getElementById('genPw')||{}).value || '' })
+      }).then(r=>r.json());
+      if(res.error){ status.textContent = '⚠ '+res.error; }
+      else {
+        status.textContent = 'Done' + (res.demo?' · AREA DEMO (not Sri\\'s listing)':'');
+        document.getElementById('imgResult').innerHTML =
+          `<img src="${res.image}" alt="card" style="max-width:420px;border:1px solid var(--line);border-radius:10px;"/>
+           <div class="market" style="margin-top:6px;">Right-click → Save image. ${esc(res.address)}</div>`;
+      }
+    } catch(e){ status.textContent = '⚠ '+e; }
+    btn.disabled = false;
+  };
+}
+
 initGen();
+initImg();
 load();
 setInterval(load, 15000);
 </script>
